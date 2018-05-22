@@ -21,7 +21,6 @@ export class Item extends React.Component<TabBarItemProps, any> {
   }
 }
 export interface AntTabbarProps extends TabBarProps {
-  /*web only*/
   prefixCls?: string;
   className?: string;
   hidden?: boolean;
@@ -40,6 +39,7 @@ class AntTabBar extends React.Component<AntTabbarProps, any> {
     animated: false,
     swipeable: false,
     prerenderingSiblingsNumber: 1,
+    tabBarPosition: 'bottom',
   };
 
   public static Item = Item;
@@ -59,6 +59,7 @@ class AntTabBar extends React.Component<AntTabbarProps, any> {
       tintColor,
       unselectedTintColor,
       hidden,
+      tabBarPosition,
     } = this.props;
     const tabsData = this.getTabs();
 
@@ -82,7 +83,7 @@ class AntTabBar extends React.Component<AntTabbarProps, any> {
     });
     let cls = `${prefixCls}-bar`;
     if (hidden) {
-      cls += ` ${prefixCls}-bar-hidden`;
+      cls += ` ${prefixCls}-bar-hidden-${tabBarPosition}`;
     }
 
     return (
@@ -100,6 +101,7 @@ class AntTabBar extends React.Component<AntTabbarProps, any> {
       swipeable,
       noRenderContent,
       prerenderingSiblingsNumber,
+      tabBarPosition,
     } = this.props;
     const tabs = this.getTabs();
     let activeIndex = 0;
@@ -114,7 +116,7 @@ class AntTabBar extends React.Component<AntTabbarProps, any> {
         <Tabs
           tabs={tabs}
           renderTabBar={this.renderTabBar}
-          tabBarPosition="bottom"
+          tabBarPosition={tabBarPosition}
           page={activeIndex < 0 ? undefined : activeIndex}
           animated={animated}
           swipeable={swipeable}
