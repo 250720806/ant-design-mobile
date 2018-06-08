@@ -1,26 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import getDataAttr from './getDataAttr';
 
-const withAttributes = (attributes: {[key: string]: any}) => (Target: React.ComponentType) => {
-  class WithAttributes extends Component {
-    componentDidMount() {
-      const el = findDOMNode(this);
+export interface WithAttributesProps {
+  render: (data?: any) => React.ReactNode;
+  [key: string]: any;
+}
 
-      if (el) {
-        Object.keys(getDataAttr(attributes)).forEach(key => {
-          el.setAttribute(key, attributes[key]);
-        });
-      }
-    }
+class WithAttributes extends React.Component<WithAttributesProps, any> {
+  componentDidMount() {
+    const el = findDOMNode(this);
+    const props = getDataAttr(this.props);
 
-    render() {
-      return <Target {...this.props} />;
+    if (el) {
+      Object.keys(getDataAttr(props)).forEach(key => {
+        el.setAttribute(key, props[key]);
+      });
     }
   }
+  render() {
+    return this.props.render();
+  }
+}
 
-  return WithAttributes;
-};
-
-export default withAttributes;
+export default WithAttributes;

@@ -4,6 +4,8 @@ import RMCInputNumber from 'rmc-input-number';
 import Icon from '../icon';
 import { StepPropsType } from './PropsType';
 
+import WithAttributes from '../_util/withAttributes';
+
 export interface StepProps extends StepPropsType {
   prefixCls?: string;
   showNumber?: boolean;
@@ -27,13 +29,20 @@ export default class Stepper extends React.Component<StepProps, any> {
       ['showNumber']: !!showNumber,
     });
 
-    return (
+    const renderRMCInputNumber = () => (
       <RMCInputNumber
         upHandler={<Icon type="plus" size="xxs" />}
         downHandler={<Icon type="minus" size="xxs" />}
         {...restProps}
         ref={el => (this.stepperRef = el)}
         className={stepperClass}
+      />
+    );
+
+    return (
+      <WithAttributes
+        {...restProps}
+        render={renderRMCInputNumber}
       />
     );
   }
